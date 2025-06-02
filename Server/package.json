@@ -1,0 +1,74 @@
+{
+  "name": "@windsurf/unity-mcp",
+  "version": "1.0.0",
+  "description": "A Model Context Protocol (MCP) server for seamless Unity Editor integration with Windsurf IDE",
+  "main": "build/index.js",
+  "type": "module",
+  "bin": {
+    "windsurf-unity-mcp": "build/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx --watch src/index.ts",
+    "start": "node build/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write src/**/*.ts",
+    "clean": "rimraf build dist",
+    "prepublishOnly": "npm run clean && npm run build",
+    "inspector": "npx @modelcontextprotocol/inspector node build/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "unity",
+    "windsurf",
+    "ai",
+    "game-development",
+    "ide-integration"
+  ],
+  "author": "Windsurf Unity MCP Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/isekream/Windsurf_Unity_MCP.git"
+  },
+  "bugs": {
+    "url": "https://github.com/isekream/Windsurf_Unity_MCP/issues"
+  },
+  "homepage": "https://github.com/isekream/Windsurf_Unity_MCP#readme",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.22.4",
+    "dotenv": "^16.3.1",
+    "chalk": "^5.3.0",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/jest": "^29.5.8",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "jest": "^29.7.0",
+    "prettier": "^3.1.0",
+    "rimraf": "^5.0.5",
+    "ts-jest": "^29.1.1",
+    "tsx": "^4.6.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "files": [
+    "build/**/*",
+    "README.md",
+    "LICENSE"
+  ]
+} 

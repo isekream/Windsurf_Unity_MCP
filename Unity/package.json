@@ -1,0 +1,47 @@
+{
+  "name": "com.windsurf.unity-mcp",
+  "version": "1.0.0",
+  "displayName": "Windsurf Unity MCP",
+  "description": "Model Context Protocol (MCP) server integration for seamless Unity Editor control from Windsurf IDE. Enables natural language commands to manipulate Unity projects, scenes, assets, and build settings through AI assistance.",
+  "unity": "2022.3",
+  "unityRelease": "0f1",
+  "documentationUrl": "https://github.com/isekream/Windsurf_Unity_MCP#readme",
+  "changelogUrl": "https://github.com/isekream/Windsurf_Unity_MCP/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/isekream/Windsurf_Unity_MCP/blob/main/LICENSE",
+  "keywords": [
+    "mcp",
+    "windsurf",
+    "ai",
+    "automation",
+    "ide",
+    "productivity",
+    "websocket",
+    "editor",
+    "tools"
+  ],
+  "author": {
+    "name": "Windsurf Unity MCP Team",
+    "email": "support@windsurfmcp.com",
+    "url": "https://github.com/isekream/Windsurf_Unity_MCP"
+  },
+  "type": "tool",
+  "hideInEditor": false,
+  "testables": [
+    "com.windsurf.unity-mcp"
+  ],
+  "samples": [
+    {
+      "displayName": "Basic MCP Setup",
+      "description": "Basic setup and configuration examples for Windsurf MCP integration",
+      "path": "Samples~/BasicSetup"
+    },
+    {
+      "displayName": "Custom Tools",
+      "description": "Examples of creating custom MCP tools for specific project needs",
+      "path": "Samples~/CustomTools"
+    }
+  ],
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  }
+} 
