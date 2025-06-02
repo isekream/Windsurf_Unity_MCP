@@ -104,28 +104,58 @@
 
 ### Step 2: Install Node.js Server
 
+**Option A: Quick Installation (Recommended)**
 ```bash
-# Install globally via npm
-npm install -g @windsurf/unity-mcp
+# Clone the repository to your desired location
+git clone https://github.com/isekream/Windsurf_Unity_MCP.git
+cd Windsurf_Unity_MCP
 
-# Or install locally in your project
-npm install @windsurf/unity-mcp
+# Run the installer script
+./install.sh
 ```
+
+**Option B: Manual Installation**
+```bash
+# 1. Clone the repository anywhere on your system
+git clone https://github.com/isekream/Windsurf_Unity_MCP.git
+cd Windsurf_Unity_MCP
+
+# 2. Install Node.js dependencies and build
+cd Server
+npm install
+npm run build
+
+# 3. Install globally for easy access
+npm link
+
+# 4. Return to project root
+cd ..
+```
+
+**Installation Location:**
+- You can install this **anywhere on your system** (e.g., `~/Documents/`, `~/Code/`, `/opt/`, etc.)
+- The location doesn't matter - the global installation makes it accessible from anywhere
+- Unity projects will connect to the server regardless of where it's installed
 
 ### Step 3: Configure Windsurf
 
-Add to your Windsurf MCP configuration:
+**Option A: Use the provided installer (from Step 2A)**
+The `install.sh` script automatically configures Windsurf for you.
+
+**Option B: Manual configuration**
+Add to your global Windsurf MCP configuration (`~/.config/windsurf/mcp.json`):
 
 ```json
 {
   "mcpServers": {
-    "unity": {
-      "command": "node",
-      "args": ["path/to/windsurf-unity-mcp/build/index.js"],
+    "unity-mcp": {
+      "command": "windsurf-unity-mcp",
       "env": {
-        "UNITY_PORT": "8090",
-        "REQUEST_TIMEOUT": "10"
-      }
+        "NODE_ENV": "production",
+        "UNITY_PORT": "8090"
+      },
+      "description": "Unity Editor integration for Windsurf IDE",
+      "enabled": true
     }
   }
 }
@@ -256,18 +286,20 @@ AI Response: Creating a platformer level with all requested elements:
 ### Prerequisites
 
 ```bash
-# Clone the repository
+# Clone the repository for development
 git clone https://github.com/isekream/Windsurf_Unity_MCP.git
 cd Windsurf_Unity_MCP
 
-# Install dependencies
+# Install Node.js dependencies
+cd Server
 npm install
+cd ..
 ```
 
 ### Project Structure
 
 ```
-windsurf-unity-mcp/
+Windsurf_Unity_MCP/
 ├── Unity/                          # Unity Package
 │   ├── Editor/                     # Unity Editor scripts
 │   │   ├── McpUnityServer.cs      # Main server coordinator
@@ -291,7 +323,8 @@ windsurf-unity-mcp/
 ### Building the Project
 
 ```bash
-# Build TypeScript to JavaScript
+# Build TypeScript to JavaScript (run from Server directory)
+cd Server
 npm run build
 
 # Run in development mode with hot reload
@@ -302,6 +335,9 @@ npm test
 
 # Lint code
 npm run lint
+
+# For global installation during development
+npm link
 ```
 
 ### Unity Development
