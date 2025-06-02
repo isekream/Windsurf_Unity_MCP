@@ -4,15 +4,15 @@ import type { UnityClient } from '../unity-client.js';
 export function createBuildTools(unityClient: UnityClient): Tool[] {
   return [
     {
-      name: 'configure_build',
-      description: 'Configure build settings for different platforms including scenes, player settings, and build options.',
+      name: 'build.configure',
+      description: 'Configure build settings for Unity project including platform, scenes, and player settings.',
       inputSchema: {
         type: 'object',
         properties: {
           target: {
             type: 'string',
             enum: ['StandaloneWindows64', 'StandaloneOSX', 'StandaloneLinux64', 'iOS', 'Android', 'WebGL', 'WSAPlayer'],
-            description: 'Target platform for the build'
+            description: 'Target build platform'
           },
           scenes: {
             type: 'array',
@@ -23,46 +23,33 @@ export function createBuildTools(unityClient: UnityClient): Tool[] {
             type: 'string',
             description: 'Output path for the build'
           },
-          developmentBuild: {
+          development: {
             type: 'boolean',
             description: 'Whether to create a development build',
             default: false
           },
           scriptDebugging: {
             type: 'boolean',
-            description: 'Enable script debugging',
+            description: 'Enable script debugging in development builds',
             default: false
           },
-          connectProfiler: {
-            type: 'boolean',
-            description: 'Connect to profiler',
-            default: false
-          },
-          allowDebugging: {
-            type: 'boolean',
-            description: 'Allow debugging',
-            default: false
-          },
-          buildOptions: {
-            type: 'array',
-            items: {
-              type: 'string',
-              enum: ['None', 'Development', 'AutoRunPlayer', 'ShowBuiltPlayer', 'BuildAdditionalStreamedScenes', 'AcceptExternalModificationsToPlayer', 'ConnectWithProfiler', 'AllowDebugging', 'SymlinkLibraries', 'UncompressedAssetBundle', 'ConnectToHost', 'CustomConnectionID', 'EnableHeadlessMode']
-            },
-            description: 'Additional build options'
+          compressionType: {
+            type: 'string',
+            enum: ['None', 'Lz4', 'Lz4HC'],
+            description: 'Asset bundle compression type',
+            default: 'Lz4'
           },
           playerSettings: {
             type: 'object',
-            description: 'Player settings to configure',
             properties: {
               companyName: { type: 'string' },
               productName: { type: 'string' },
               version: { type: 'string' },
               bundleVersion: { type: 'string' },
-              bundleIdentifier: { type: 'string' },
-              icon: { type: 'string', description: 'Path to app icon' },
-              splashScreen: { type: 'string', description: 'Path to splash screen' }
-            }
+              applicationIdentifier: { type: 'string' }
+            },
+            description: 'Player settings to apply before build',
+            additionalProperties: true
           }
         },
         additionalProperties: false
@@ -74,37 +61,35 @@ export function createBuildTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'execute_build',
-      description: 'Execute a build for the specified platform with current settings.',
+      name: 'build.execute',
+      description: 'Execute a build with current settings or specified configuration.',
       inputSchema: {
         type: 'object',
         properties: {
           target: {
             type: 'string',
-            enum: ['StandaloneWindows64', 'StandaloneOSX', 'StandaloneLinux64', 'iOS', 'Android', 'WebGL', 'WSAPlayer'],
-            description: 'Target platform for the build'
+            description: 'Override build target platform'
           },
-          buildPath: {
+          outputPath: {
             type: 'string',
-            description: 'Output path for the build'
+            description: 'Override output path for this build'
           },
-          async: {
+          clean: {
             type: 'boolean',
-            description: 'Whether to run the build asynchronously',
-            default: true
-          },
-          reportProgress: {
-            type: 'boolean',
-            description: 'Whether to report build progress',
-            default: true
-          },
-          cleanBuild: {
-            type: 'boolean',
-            description: 'Whether to clean before building',
+            description: 'Clean build cache before building',
             default: false
+          },
+          strictMode: {
+            type: 'boolean',
+            description: 'Enable strict build mode (treat warnings as errors)',
+            default: false
+          },
+          showBuiltPlayer: {
+            type: 'boolean',
+            description: 'Show built player after successful build',
+            default: true
           }
         },
-        required: ['target', 'buildPath'],
         additionalProperties: false
       },
       async execute(args: Record<string, unknown>) {
@@ -114,8 +99,8 @@ export function createBuildTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'run_tests',
-      description: 'Execute Unity Test Runner for EditMode and PlayMode tests.',
+      name: 'build.runTests',
+      description: 'Run Unity tests (EditMode and/or PlayMode) and return results.',
       inputSchema: {
         type: 'object',
         properties: {
@@ -174,7 +159,7 @@ export function createBuildTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'get_build_report',
+      name: 'build.getReport',
       description: 'Get detailed information about the last build including size, warnings, and errors.',
       inputSchema: {
         type: 'object',
@@ -204,7 +189,7 @@ export function createBuildTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'clean_build',
+      name: 'build.clean',
       description: 'Clean build artifacts and temporary files.',
       inputSchema: {
         type: 'object',
@@ -230,7 +215,7 @@ export function createBuildTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'build_addressables',
+      name: 'build.addressables',
       description: 'Build Addressable assets for the project.',
       inputSchema: {
         type: 'object',
@@ -272,7 +257,7 @@ export function createBuildTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'optimize_build',
+      name: 'build.optimize',
       description: 'Analyze and optimize build settings for size and performance.',
       inputSchema: {
         type: 'object',
@@ -312,7 +297,7 @@ export function createBuildTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'get_console_logs',
+      name: 'build.getConsoleLogs',
       description: 'Retrieve console logs from Unity Editor including errors, warnings, and debug messages.',
       inputSchema: {
         type: 'object',
@@ -350,7 +335,7 @@ export function createBuildTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'profile_build',
+      name: 'build.profile',
       description: 'Profile build performance and identify bottlenecks.',
       inputSchema: {
         type: 'object',

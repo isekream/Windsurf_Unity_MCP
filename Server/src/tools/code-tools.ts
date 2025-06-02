@@ -4,7 +4,7 @@ import type { UnityClient } from '../unity-client.js';
 export function createCodeTools(unityClient: UnityClient): Tool[] {
   return [
     {
-      name: 'create_script',
+      name: 'code.createScript',
       description: 'Generate C# scripts with templates for common Unity patterns like MonoBehaviour, ScriptableObject, or custom classes.',
       inputSchema: {
         type: 'object',
@@ -95,7 +95,7 @@ export function createCodeTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'analyze_scripts',
+      name: 'code.analyzeScripts',
       description: 'Analyze existing C# scripts in the project to understand code structure, dependencies, and patterns.',
       inputSchema: {
         type: 'object',
@@ -134,7 +134,7 @@ export function createCodeTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'attach_scripts',
+      name: 'code.attachScripts',
       description: 'Attach C# scripts to GameObjects in the scene.',
       inputSchema: {
         type: 'object',
@@ -170,7 +170,7 @@ export function createCodeTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'find_references',
+      name: 'code.findReferences',
       description: 'Find references to scripts, components, or specific code elements throughout the project.',
       inputSchema: {
         type: 'object',
@@ -215,7 +215,7 @@ export function createCodeTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'refactor_code',
+      name: 'code.refactor',
       description: 'Perform code refactoring operations like renaming, extracting methods, or reorganizing code.',
       inputSchema: {
         type: 'object',
@@ -268,7 +268,7 @@ export function createCodeTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'generate_documentation',
+      name: 'code.generateDocumentation',
       description: 'Generate or update XML documentation comments for C# scripts.',
       inputSchema: {
         type: 'object',
@@ -307,7 +307,7 @@ export function createCodeTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'validate_code',
+      name: 'code.validate',
       description: 'Validate C# scripts for common issues, style violations, and potential bugs.',
       inputSchema: {
         type: 'object',
@@ -345,7 +345,7 @@ export function createCodeTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'format_code',
+      name: 'code.format',
       description: 'Format C# scripts according to coding standards and style guidelines.',
       inputSchema: {
         type: 'object',

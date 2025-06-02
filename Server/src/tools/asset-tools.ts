@@ -4,31 +4,33 @@ import type { UnityClient } from '../unity-client.js';
 export function createAssetTools(unityClient: UnityClient): Tool[] {
   return [
     {
-      name: 'import_asset',
-      description: 'Import an asset file into the Unity project with specified import settings.',
+      name: 'assets.import',
+      description: 'Import assets into the Unity project from file paths or URLs.',
       inputSchema: {
         type: 'object',
         properties: {
-          filePath: {
+          sourcePath: {
             type: 'string',
-            description: 'Path to the file to import (relative to Assets folder or absolute)'
+            description: 'Source path or URL of the asset to import'
           },
-          assetPath: {
+          targetPath: {
             type: 'string',
-            description: 'Destination path in Assets folder'
+            description: 'Target path within the Assets folder'
           },
           importSettings: {
             type: 'object',
-            description: 'Import settings specific to asset type',
+            properties: {
+              textureType: { type: 'string', description: 'Texture import type' },
+              wrapMode: { type: 'string', description: 'Texture wrap mode' },
+              filterMode: { type: 'string', description: 'Texture filter mode' },
+              maxSize: { type: 'number', description: 'Maximum texture size' },
+              compression: { type: 'string', description: 'Compression format' }
+            },
+            description: 'Import settings for the asset',
             additionalProperties: true
-          },
-          overwrite: {
-            type: 'boolean',
-            description: 'Whether to overwrite existing assets',
-            default: false
           }
         },
-        required: ['filePath'],
+        required: ['sourcePath'],
         additionalProperties: false
       },
       async execute(args: Record<string, unknown>) {
@@ -38,8 +40,8 @@ export function createAssetTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'create_material',
-      description: 'Create a new material asset with specified properties and shader.',
+      name: 'assets.createMaterial',
+      description: 'Create a new material with specified properties and shader.',
       inputSchema: {
         type: 'object',
         properties: {
@@ -92,77 +94,78 @@ export function createAssetTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'manage_prefabs',
-      description: 'Create, update, or manage prefab assets.',
+      name: 'assets.managePrefabs',
+      description: 'Create, modify, or instantiate prefabs in the project.',
       inputSchema: {
         type: 'object',
         properties: {
           action: {
             type: 'string',
-            enum: ['create', 'update', 'instantiate', 'unpack'],
-            description: 'Action to perform on the prefab'
-          },
-          gameObjectName: {
-            type: 'string',
-            description: 'Name of GameObject to create prefab from (for create action)'
-          },
-          gameObjectId: {
-            type: 'number',
-            description: 'Instance ID of GameObject (for create action)'
+            enum: ['create', 'modify', 'instantiate', 'update'],
+            description: 'Action to perform on prefabs'
           },
           prefabPath: {
             type: 'string',
             description: 'Path to the prefab asset'
           },
-          savePath: {
+          gameObjectName: {
             type: 'string',
-            description: 'Path to save new prefab (for create action)'
+            description: 'Name of GameObject to create prefab from (for create action)'
           },
-          position: {
+          instantiatePosition: {
             type: 'object',
             properties: {
               x: { type: 'number' },
               y: { type: 'number' },
               z: { type: 'number' }
             },
-            description: 'Position for instantiated prefab'
+            description: 'Position to instantiate prefab at'
+          },
+          modifications: {
+            type: 'object',
+            description: 'Property modifications for the prefab',
+            additionalProperties: true
           }
         },
         required: ['action'],
         additionalProperties: false
       },
       async execute(args: Record<string, unknown>) {
-        const result = await unityClient.sendRequest('assets.managePrefab', args);
+        const result = await unityClient.sendRequest('assets.managePrefabs', args);
         return result;
       }
     },
 
     {
-      name: 'organize_assets',
-      description: 'Organize assets by creating folders, moving files, or cleaning up the project.',
+      name: 'assets.organize',
+      description: 'Organize and restructure assets in the project folders.',
       inputSchema: {
         type: 'object',
         properties: {
           action: {
             type: 'string',
-            enum: ['createFolder', 'moveAsset', 'deleteAsset', 'renameAsset'],
+            enum: ['move', 'copy', 'rename', 'delete', 'createFolder'],
             description: 'Organization action to perform'
           },
           sourcePath: {
             type: 'string',
-            description: 'Source path for move/rename operations'
+            description: 'Source asset path'
           },
           targetPath: {
             type: 'string',
-            description: 'Target path for move/rename/create operations'
+            description: 'Target path for move/copy operations'
+          },
+          newName: {
+            type: 'string',
+            description: 'New name for rename operations'
           },
           recursive: {
             type: 'boolean',
-            description: 'Whether to apply operation recursively',
+            description: 'Whether to perform action recursively',
             default: false
           }
         },
-        required: ['action', 'targetPath'],
+        required: ['action'],
         additionalProperties: false
       },
       async execute(args: Record<string, unknown>) {
@@ -172,26 +175,26 @@ export function createAssetTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'search_assets',
+      name: 'assets.search',
       description: 'Search for assets in the project based on various criteria.',
       inputSchema: {
         type: 'object',
         properties: {
-          filter: {
-            type: 'object',
-            properties: {
-              name: { type: 'string', description: 'Search by asset name' },
-              type: { type: 'string', description: 'Filter by asset type (e.g., "Texture2D", "AudioClip")' },
-              label: { type: 'string', description: 'Filter by asset label' },
-              path: { type: 'string', description: 'Search in specific path' },
-              extension: { type: 'string', description: 'Filter by file extension' }
-            },
-            description: 'Search criteria'
+          query: {
+            type: 'string',
+            description: 'Search query for asset names'
           },
-          includePackages: {
-            type: 'boolean',
-            description: 'Whether to include package assets in search',
-            default: false
+          type: {
+            type: 'string',
+            description: 'Asset type filter (e.g., "Texture2D", "Material", "Prefab")'
+          },
+          path: {
+            type: 'string',
+            description: 'Path filter to search within specific folders'
+          },
+          label: {
+            type: 'string',
+            description: 'Asset label filter'
           },
           maxResults: {
             type: 'number',
@@ -208,8 +211,8 @@ export function createAssetTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'create_texture',
-      description: 'Create a procedural texture asset with specified properties.',
+      name: 'assets.createTexture',
+      description: 'Create a new texture asset with specified properties.',
       inputSchema: {
         type: 'object',
         properties: {
@@ -219,25 +222,17 @@ export function createAssetTools(unityClient: UnityClient): Tool[] {
           },
           width: {
             type: 'number',
-            description: 'Width of the texture in pixels',
-            default: 256
+            description: 'Texture width in pixels'
           },
           height: {
             type: 'number',
-            description: 'Height of the texture in pixels',
-            default: 256
+            description: 'Texture height in pixels'
           },
           format: {
             type: 'string',
-            enum: ['RGBA32', 'RGB24', 'ARGB32', 'R8', 'RG16'],
+            enum: ['RGBA32', 'RGB24', 'ARGB32', 'Alpha8', 'R16', 'RGBAFloat'],
             description: 'Texture format',
             default: 'RGBA32'
-          },
-          pattern: {
-            type: 'string',
-            enum: ['solid', 'checkerboard', 'gradient', 'noise'],
-            description: 'Pattern to generate',
-            default: 'solid'
           },
           color: {
             type: 'object',
@@ -247,14 +242,15 @@ export function createAssetTools(unityClient: UnityClient): Tool[] {
               b: { type: 'number', minimum: 0, maximum: 1 },
               a: { type: 'number', minimum: 0, maximum: 1 }
             },
-            description: 'Base color for the texture'
+            description: 'Fill color for the texture',
+            default: { r: 1, g: 1, b: 1, a: 1 }
           },
           savePath: {
             type: 'string',
             description: 'Path to save the texture (relative to Assets folder)'
           }
         },
-        required: ['name'],
+        required: ['name', 'width', 'height'],
         additionalProperties: false
       },
       async execute(args: Record<string, unknown>) {
@@ -264,19 +260,19 @@ export function createAssetTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'package_manager',
+      name: 'packages.manage',
       description: 'Manage Unity packages - install, update, or remove packages.',
       inputSchema: {
         type: 'object',
         properties: {
           action: {
             type: 'string',
-            enum: ['install', 'remove', 'update', 'list'],
+            enum: ['install', 'update', 'remove', 'list'],
             description: 'Package management action'
           },
           packageName: {
             type: 'string',
-            description: 'Name or identifier of the package'
+            description: 'Name of the package (for install/update/remove)'
           },
           version: {
             type: 'string',
@@ -284,26 +280,26 @@ export function createAssetTools(unityClient: UnityClient): Tool[] {
           },
           source: {
             type: 'string',
-            enum: ['registry', 'git', 'local', 'embedded'],
+            enum: ['registry', 'git', 'local'],
             description: 'Package source type',
             default: 'registry'
           },
           url: {
             type: 'string',
-            description: 'URL for git or custom packages'
+            description: 'Package URL for git or local sources'
           }
         },
         required: ['action'],
         additionalProperties: false
       },
       async execute(args: Record<string, unknown>) {
-        const result = await unityClient.sendRequest('assets.packageManager', args);
+        const result = await unityClient.sendRequest('packages.manage', args);
         return result;
       }
     },
 
     {
-      name: 'get_asset_info',
+      name: 'assets.getInfo',
       description: 'Get detailed information about a specific asset.',
       inputSchema: {
         type: 'object',

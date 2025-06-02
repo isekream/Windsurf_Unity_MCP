@@ -4,8 +4,8 @@ import type { UnityClient } from '../unity-client.js';
 export function createSceneTools(unityClient: UnityClient): Tool[] {
   return [
     {
-      name: 'create_gameobject',
-      description: 'Create a new GameObject in the current scene with specified properties and components.',
+      name: 'scene.createGameObject',
+      description: 'Create a new GameObject in the current scene with specified name, position, rotation, and components.',
       inputSchema: {
         type: 'object',
         properties: {
@@ -68,35 +68,35 @@ export function createSceneTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'modify_component',
-      description: 'Add, remove, or update components on a GameObject.',
+      name: 'scene.modifyComponent',
+      description: 'Add, remove, or modify components on GameObjects in the scene.',
       inputSchema: {
         type: 'object',
         properties: {
           gameObjectName: {
             type: 'string',
-            description: 'Name of the target GameObject'
+            description: 'Name of the GameObject to modify'
           },
-          gameObjectId: {
+          instanceId: {
             type: 'number',
-            description: 'Instance ID of the target GameObject'
-          },
-          action: {
-            type: 'string',
-            enum: ['add', 'remove', 'update'],
-            description: 'Action to perform on the component'
+            description: 'Instance ID of the GameObject (alternative to name)'
           },
           componentType: {
             type: 'string',
-            description: 'Type of component (e.g., "Rigidbody", "MeshRenderer")'
+            description: 'Type of component to add/modify (e.g., "Transform", "Rigidbody")'
+          },
+          action: {
+            type: 'string',
+            enum: ['add', 'remove', 'modify'],
+            description: 'Action to perform on the component'
           },
           properties: {
             type: 'object',
-            description: 'Component properties to set (for add/update actions)',
+            description: 'Properties to set on the component (for add/modify actions)',
             additionalProperties: true
           }
         },
-        required: ['action', 'componentType'],
+        required: ['componentType', 'action'],
         additionalProperties: false
       },
       async execute(args: Record<string, unknown>) {
@@ -106,30 +106,24 @@ export function createSceneTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'query_scene',
-      description: 'Get information about the current scene including hierarchy and GameObject details.',
+      name: 'scene.query',
+      description: 'Query the current scene hierarchy and get information about GameObjects and their components.',
       inputSchema: {
         type: 'object',
         properties: {
+          filter: {
+            type: 'string',
+            description: 'Filter GameObjects by name pattern'
+          },
           includeInactive: {
             type: 'boolean',
             description: 'Whether to include inactive GameObjects',
             default: false
           },
-          includeComponents: {
-            type: 'boolean',
-            description: 'Whether to include component information',
-            default: true
-          },
-          filter: {
-            type: 'object',
-            properties: {
-              name: { type: 'string', description: 'Filter by GameObject name' },
-              tag: { type: 'string', description: 'Filter by tag' },
-              layer: { type: 'number', description: 'Filter by layer' },
-              componentType: { type: 'string', description: 'Filter by component type' }
-            },
-            description: 'Filters to apply when querying'
+          maxDepth: {
+            type: 'number',
+            description: 'Maximum hierarchy depth to query',
+            default: -1
           }
         },
         additionalProperties: false
@@ -141,28 +135,22 @@ export function createSceneTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'select_objects',
-      description: 'Select GameObjects in the Unity Editor hierarchy.',
+      name: 'scene.selectObjects',
+      description: 'Select GameObjects in the Unity Editor scene view.',
       inputSchema: {
         type: 'object',
         properties: {
-          gameObjects: {
+          objectNames: {
             type: 'array',
-            items: {
-              oneOf: [
-                { type: 'string', description: 'GameObject name' },
-                { type: 'number', description: 'GameObject instance ID' }
-              ]
-            },
-            description: 'List of GameObjects to select'
+            items: { type: 'string' },
+            description: 'Names of GameObjects to select'
           },
-          addToSelection: {
-            type: 'boolean',
-            description: 'Whether to add to existing selection or replace it',
-            default: false
+          instanceIds: {
+            type: 'array',
+            items: { type: 'number' },
+            description: 'Instance IDs of GameObjects to select'
           }
         },
-        required: ['gameObjects'],
         additionalProperties: false
       },
       async execute(args: Record<string, unknown>) {
@@ -172,8 +160,8 @@ export function createSceneTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'delete_gameobject',
-      description: 'Delete a GameObject from the scene.',
+      name: 'scene.deleteGameObject',
+      description: 'Delete GameObjects from the current scene.',
       inputSchema: {
         type: 'object',
         properties: {
@@ -195,7 +183,7 @@ export function createSceneTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'move_gameobject',
+      name: 'scene.moveGameObject',
       description: 'Move a GameObject to a new position, rotation, or scale.',
       inputSchema: {
         type: 'object',
@@ -250,7 +238,7 @@ export function createSceneTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'save_scene',
+      name: 'scene.save',
       description: 'Save the current scene to disk.',
       inputSchema: {
         type: 'object',
@@ -269,7 +257,7 @@ export function createSceneTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'load_scene',
+      name: 'scene.load',
       description: 'Load a scene in the Unity Editor.',
       inputSchema: {
         type: 'object',

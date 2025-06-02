@@ -4,7 +4,7 @@ import type { UnityClient } from '../unity-client.js';
 export function createProjectTools(unityClient: UnityClient): Tool[] {
   return [
     {
-      name: 'analyze_project',
+      name: 'project.analyze',
       description: 'Analyze Unity project structure and return comprehensive information about the project, including scenes, assets, packages, and settings.',
       inputSchema: {
         type: 'object',
@@ -35,7 +35,7 @@ export function createProjectTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'get_project_info',
+      name: 'project.getInfo',
       description: 'Get basic information about the Unity project including name, version, platform, and loaded scenes.',
       inputSchema: {
         type: 'object',
@@ -49,7 +49,7 @@ export function createProjectTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'set_project_settings',
+      name: 'project.setSettings',
       description: 'Modify Unity project settings such as company name, product name, version, or other player settings.',
       inputSchema: {
         type: 'object',
@@ -85,7 +85,7 @@ export function createProjectTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'list_scenes',
+      name: 'project.listScenes',
       description: 'List all scenes in the project, including their build settings and current load status.',
       inputSchema: {
         type: 'object',
@@ -110,7 +110,7 @@ export function createProjectTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'get_build_settings',
+      name: 'project.getBuildSettings',
       description: 'Get current build settings including target platform, scenes in build, and player settings.',
       inputSchema: {
         type: 'object',
@@ -124,7 +124,7 @@ export function createProjectTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'set_build_target',
+      name: 'project.setBuildTarget',
       description: 'Change the active build target platform for the project.',
       inputSchema: {
         type: 'object',
@@ -150,7 +150,7 @@ export function createProjectTools(unityClient: UnityClient): Tool[] {
     },
 
     {
-      name: 'refresh_assets',
+      name: 'project.refreshAssets',
       description: 'Refresh the Unity Asset Database to detect changes in project files.',
       inputSchema: {
         type: 'object',
