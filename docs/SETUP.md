@@ -66,7 +66,7 @@ The Unity MCP server should now be running and ready to accept connections.
   "mcpServers": {
     "unity": {
       "command": "node",
-      "args": ["path/to/Windsurf_Unity_MCP/Server/build/index.js"],
+      "args": ["./Server/build/index.js"],
       "env": {
         "UNITY_PORT": "8090",
         "REQUEST_TIMEOUT": "10"
@@ -76,7 +76,7 @@ The Unity MCP server should now be running and ready to accept connections.
 }
 ```
 
-**Note**: Replace `path/to/Windsurf_Unity_MCP` with the actual path to your installation.
+**Note**: This configuration assumes you're running Windsurf from the project root directory. For global installation, use the `windsurf-unity-mcp` command instead.
 
 ### 3. Environment Variables
 
@@ -148,7 +148,7 @@ Or in Windsurf configuration:
   "mcpServers": {
     "unity": {
       "command": "node",
-      "args": ["path/to/Windsurf_Unity_MCP/Server/build/index.js"],
+      "args": ["./Server/build/index.js"],
       "env": {
         "UNITY_PORT": "8090",
         "LOG_LEVEL": "debug"

@@ -419,7 +419,7 @@ namespace Windsurf.Unity.MCP
                     unity = new
                     {
                         command = "node",
-                        args = new[] { "path/to/Windsurf_Unity_MCP/Server/build/index.js" },
+                        args = new[] { "./Server/build/index.js" },
                         env = new
                         {
                             UNITY_PORT = serverPort.ToString(),
