@@ -105,7 +105,7 @@ namespace Windsurf.Unity.MCP
                 },
                 physicsSettings = new
                 {
-                    gravity = Physics.gravity,
+                    gravity = new { x = Physics.gravity.x, y = Physics.gravity.y, z = Physics.gravity.z },
                     defaultMaterial = GetDefaultPhysicsMaterial(),
                     bounceThreshold = Physics.bounceThreshold,
                     sleepThreshold = Physics.sleepThreshold,

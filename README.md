@@ -1,411 +1,352 @@
-# Windsurf Unity MCP
+# 🎮 Windsurf Unity MCP Server
 
-> **🔒 Security Notice**: Before sharing or contributing to this project, please review [SECURITY_AND_PRIVACY.md](SECURITY_AND_PRIVACY.md) to ensure you don't accidentally expose personal information like usernames, file paths, or system details.
+A powerful Model Context Protocol (MCP) server that enables seamless Unity Editor integration with Windsurf IDE. Control Unity projects through natural language commands powered by AI.
 
-<div align="center">
+## ✨ Features
 
-```
-                              ,/(/.   *(/,                                  
-                          */(((((/.   *((((((*.                             
-                     .*((((((((((/.   *((((((((((/.                         
-                 ./((((((((((((((/    *((((((((((((((/,                     
-             ,/(((((((((((((/*.           */(((((((((((((/*.                
-            ,%%#((/((((((*                    ,/(((((/(#&@@(                
-            ,%%##%%##((((((/*.             ,/((((/(#&@@@@@@(                
-            ,%%######%%##((/(((/*.    .*/(((//(%@@@@@@@@@@@(                
-            ,%%####%#(%%#%%##((/((((((((//#&@@@@@@&@@@@@@@@(                
-            ,%%####%(    /#%#%%%##(//(#@@@@@@@%,   #@@@@@@@(                
-            ,%%####%(        *#%###%@@@@@@(        #@@@@@@@(                
-            ,%%####%(           #%#%@@@@,          #@@@@@@@(                
-            ,%%##%%%(           #%#%@@@@,          #@@@@@@@(                
-            ,%%%#*              #%#%@@@@,             *%@@@(                
-            .,      ,/##*.      #%#%@@@@,     ./&@#*      *`                
-                ,/#%#####%%#/,  #%#%@@@@, ,/&@@@@@@@@@&\.                    
-                 `*#########%%%%###%@@@@@@@@@@@@@@@@@@&*´                   
-                    `*%%###########%@@@@@@@@@@@@@@&*´                        
-                        `*%%%######%@@@@@@@@@@&*´                            
-                            `*#%%##%@@@@@&*´                                 
-                               `*%#%@&*´                                     
-                                                       
-     ███╗   ███╗ ██████╗██████╗         ██╗    ██╗██╗███╗   ██╗██████╗ ███████╗██╗   ██╗██████╗ ███████╗
-     ████╗ ████║██╔════╝██╔══██╗        ██║    ██║██║████╗  ██║██╔══██╗██╔════╝██║   ██║██╔══██╗██╔════╝
-     ██╔████╔██║██║     ██████╔╝        ██║ █╗ ██║██║██╔██╗ ██║██║  ██║███████╗██║   ██║██████╔╝█████╗  
-     ██║╚██╔╝██║██║     ██╔═══╝         ██║███╗██║██║██║╚██╗██║██║  ██║╚════██║██║   ██║██╔══██╗██╔══╝  
-     ██║ ╚═╝ ██║╚██████╗██║             ╚███╔███╔╝██║██║ ╚████║██████╔╝███████║╚██████╔╝██║  ██║██║     
-     ╚═╝     ╚═╝ ╚═════╝╚═╝              ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝     
+- 🎯 **40+ Unity Tools** - Comprehensive project, scene, asset, code, and build management
+- 🔄 **Real-time Integration** - Direct Unity Editor communication via HTTP API
+- 🤖 **AI-Powered** - Natural language commands for complex Unity operations
+- 🛠️ **Extensible** - Easy to add custom tools for specific project needs
+- 📱 **Cross-Platform** - Works on Windows, macOS, and Linux
+- 🚀 **Zero Config** - Auto-discovery and setup for new Unity projects
+
+## 🏗️ Architecture
 
 ```
+Windsurf IDE ←→ Node.js MCP Server ←→ Unity Editor C# Plugin
+     │                    │                        │
+  AI Commands      Protocol Bridge            Unity API
+```
 
-**A Model Context Protocol (MCP) server for seamless Unity Editor integration with Windsurf IDE**
+### Components
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Unity Version](https://img.shields.io/badge/Unity-2022.3%2B-blue.svg)](https://unity3d.com/get-unity/download)
-[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0%2B-blue.svg)](https://www.typescriptlang.org/)
+1. **Node.js MCP Server** (`Server/`) - Handles Windsurf communication and tool routing
+2. **Unity C# Plugin** (`Unity/`) - Executes commands directly in Unity Editor
+3. **Python Client** (`unity_mcp_client.py`) - Test client for development
 
-</div>
+## 🚀 Quick Start
 
-## 🚀 Features
+### Prerequisites
 
-### 🎮 Unity Editor Integration
-- **Natural Language Control**: Use conversational AI to perform complex Unity operations
-- **Real-time Communication**: WebSocket-based bridge for instant responses
-- **Project Management**: Comprehensive project analysis and configuration
-- **Scene Manipulation**: Create, modify, and manage GameObjects and components
-- **Asset Pipeline**: Automated asset import, organization, and optimization
-- **Build Automation**: Configure and execute builds for multiple platforms
+- Unity 2022.3+ 
+- Node.js 18+
+- Windsurf IDE
 
-### 🧠 AI-Powered Workflows
-- **Smart Code Generation**: Generate Unity scripts based on gameplay descriptions
-- **Intelligent Scene Building**: Create complex scenes from natural language descriptions
-- **Component Templates**: Auto-generate common Unity patterns and components
-- **Workflow Automation**: Pre-built workflows for common Unity development tasks
+### Installation
 
-### 🔧 Windsurf-Specific Features
-- **Deep IDE Integration**: Seamless integration with Windsurf's AI coding patterns
-- **Code Context Analysis**: Understand current code context for better suggestions
-- **Live Sync**: Real-time synchronization between Windsurf and Unity editors
-- **Enhanced Error Handling**: Robust error recovery and user guidance
+1. **Clone this repository**:
+   ```bash
+   git clone https://github.com/isekream/Windsurf_Unity_MCP.git
+   cd Windsurf_Unity_MCP
+   ```
 
-## 📋 Table of Contents
+2. **Install Node.js dependencies**:
+   ```bash
+   cd Server
+   npm install
+   npm run build
+   cd ..
+   ```
 
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Available Tools](#available-tools)
-- [Examples](#examples)
-- [Development](#development)
-- [Contributing](#contributing)
-- [License](#license)
+3. **Configure Windsurf MCP**:
+   Add to `~/.config/windsurf/mcp.json`:
+   ```json
+   {
+     "mcpServers": {
+       "unity-mcp": {
+         "command": "node",
+         "args": ["./Server/build/index.js"],
+         "cwd": "/path/to/Windsurf_Unity_MCP",
+         "env": {
+           "NODE_ENV": "production",
+           "UNITY_PORT": "8090"
+         },
+         "description": "Unity Editor integration for Windsurf IDE",
+         "enabled": true
+       }
+     }
+   }
+   ```
 
-## 🔧 Requirements
+4. **Install Unity Plugin**:
+   - Open Unity Editor with your project
+   - Go to `Window > Package Manager`
+   - Click `+` → `Add package from git URL...`
+   - Enter: `https://github.com/isekream/Windsurf_Unity_MCP.git?path=/Unity`
 
-### Unity Editor
-- Unity 2022.3 LTS or later
-- Unity Package Manager access
+5. **Start the Unity MCP Server**:
+   - In Unity: `Tools > Windsurf MCP > Server Window`
+   - Click `Start Server`
+   - Verify status shows "Running" at http://localhost:8090
 
-### Node.js Environment
-- Node.js 18 or later
-- npm 9 or later
+6. **Restart Windsurf IDE** to load the MCP server
 
-### Windsurf IDE
-- Windsurf IDE with MCP support
-- MCP configuration capability
+## 🎯 Available Tools (40 Total)
 
-## 📦 Installation
+### Project Management (6 tools)
+- `project.analyze` - Comprehensive project analysis and structure overview
+- `project.getInfo` - Get basic project information and settings
+- `project.setSettings` - Modify project configuration and player settings
+- `project.listScenes` - List all scenes in build settings with status
+- `project.getBuildSettings` - Get current build configuration
+- `project.setBuildTarget` - Change active build target platform
+- `project.refreshAssets` - Force refresh of project assets database
 
-### Step 1: Install Unity Package
+### Scene Operations (8 tools)
+- `scene.createGameObject` - Create GameObjects with components and hierarchy
+- `scene.modifyComponent` - Add, remove, or update component properties
+- `scene.query` - Query scene hierarchy and find objects by criteria
+- `scene.selectObjects` - Select and focus objects in Scene/Hierarchy view
+- `scene.deleteGameObject` - Remove GameObjects and children safely
+- `scene.moveGameObject` - Transform position, rotation, scale, and parenting
+- `scene.save` - Save current scene or all open scenes
+- `scene.load` - Open and switch between project scenes
 
-1. Open Unity Package Manager (Window > Package Manager)
-2. Click the "+" button and select "Add package from git URL"
-3. Enter: `https://github.com/isekream/Windsurf_Unity_MCP.git?path=/Unity`
-4. Click "Add"
+### Asset Management (8 tools)
+- `assets.import` - Import files with custom import settings
+- `assets.createMaterial` - Generate materials with shader properties
+- `assets.managePrefabs` - Create, modify, and instantiate prefab assets
+- `assets.organize` - Folder operations, moving, and organizing project assets
+- `assets.search` - Find assets by name, type, or properties
+- `assets.createTexture` - Generate procedural textures and import images
+- `packages.manage` - Install, update, and remove Unity packages
+- `assets.getInfo` - Get detailed information about selected assets
 
-### Step 2: Install Node.js Server
+### Code Generation (8 tools)
+- `code.createScript` - Generate C# scripts from templates or descriptions
+- `code.analyzeScripts` - Parse existing scripts and extract information
+- `code.attachScripts` - Attach MonoBehaviour scripts to GameObjects
+- `code.findReferences` - Find script and component usage across project
+- `code.refactor` - Rename, move, and restructure code safely
+- `code.generateDocumentation` - Auto-generate XML documentation
+- `code.validate` - Check scripts for common issues and best practices
+- `code.format` - Format and style code according to conventions
 
-**Option A: Quick Installation (Recommended)**
+### Build & Deploy (10 tools)
+- `build.configure` - Set build settings, scenes, and platform options
+- `build.execute` - Trigger builds for target platforms
+- `build.runTests` - Execute Unity Test Runner and get results
+- `build.getReport` - Get detailed build reports and statistics
+- `build.clean` - Clean build cache and temporary files
+- `build.addressables` - Manage Addressable Asset System configuration
+- `build.optimize` - Analyze and optimize build size and performance
+- `build.getConsoleLogs` - Retrieve Unity Console messages and errors
+- `build.profile` - Performance profiling and optimization suggestions
+
+## 💡 Usage Examples
+
+### Natural Language Commands in Windsurf
+
+```
+"Analyze my Unity project and show me the structure"
+→ Executes: project.analyze
+
+"Create a player character with movement controls in the scene"
+→ Executes: scene.createGameObject, code.createScript, code.attachScripts
+
+"Build my project for Android with development settings"
+→ Executes: build.configure, build.setBuildTarget, build.execute
+
+"Find all scripts that use the PlayerController component"
+→ Executes: code.findReferences
+
+"Create a fire particle system with appropriate materials"
+→ Executes: scene.createGameObject, assets.createMaterial, assets.managePrefabs
+```
+
+### Direct Tool Testing
+
+You can test tools directly using the Python client:
+
 ```bash
-# Clone the repository to your desired location
-git clone https://github.com/isekream/Windsurf_Unity_MCP.git
-cd Windsurf_Unity_MCP
+# Analyze project structure
+python3 unity_mcp_client.py project.analyze
 
-# Run the installer script
-./install.sh
+# Get project info
+python3 unity_mcp_client.py project.getInfo
+
+# Create a cube in the scene
+python3 unity_mcp_client.py scene.createGameObject '{"name": "TestCube", "primitive": "Cube"}'
+
+# List all scenes
+python3 unity_mcp_client.py project.listScenes
+
+# Get build settings
+python3 unity_mcp_client.py project.getBuildSettings
 ```
 
-**Option B: Manual Installation**
-```bash
-# 1. Clone the repository anywhere on your system
-git clone https://github.com/isekream/Windsurf_Unity_MCP.git
-cd Windsurf_Unity_MCP
-
-# 2. Install Node.js dependencies and build
-cd Server
-npm install
-npm run build
-
-# 3. Install globally for easy access
-npm link
-
-# 4. Return to project root
-cd ..
-```
-
-**Installation Location:**
-- You can install this **anywhere on your system** (e.g., `~/Documents/`, `~/Code/`, `/opt/`, etc.)
-- The location doesn't matter - the global installation makes it accessible from anywhere
-- Unity projects will connect to the server regardless of where it's installed
-
-### Step 3: Configure Windsurf
-
-**Option A: Use the provided installer (from Step 2A)**
-The `install.sh` script automatically configures Windsurf for you.
-
-**Option B: Manual configuration**
-Add to your global Windsurf MCP configuration (`~/.config/windsurf/mcp.json`):
-
-```json
-{
-  "mcpServers": {
-    "unity-mcp": {
-      "command": "windsurf-unity-mcp",
-      "env": {
-        "NODE_ENV": "production",
-        "UNITY_PORT": "8090"
-      },
-      "description": "Unity Editor integration for Windsurf IDE",
-      "enabled": true
-    }
-  }
-}
-```
-
-## ⚙️ Configuration
+## 🔧 Configuration
 
 ### Unity Configuration
 
-1. Open Unity Editor
-2. Navigate to **Tools > Windsurf MCP > Server Window**
-3. Configure WebSocket port (default: 8090)
-4. Set request timeout (default: 10 seconds)
-5. Click "Start Server"
+1. **Server Settings**: 
+   - Port: 8090 (default, configurable)
+   - Timeout: 10 seconds (configurable)
+   - Auto-start: Optional for convenience
+
+2. **Tool Categories**:
+   - All tools are auto-registered on Unity Editor startup
+   - Custom tools can be added by extending `McpToolBase`
 
 ### Environment Variables
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `UNITY_PORT` | WebSocket port for Unity communication | `8090` |
-| `REQUEST_TIMEOUT` | Request timeout in seconds | `10` |
-| `LOG_LEVEL` | Logging level (debug, info, warn, error) | `info` |
+| `UNITY_PORT` | Unity Editor HTTP server port | `8090` |
+| `NODE_ENV` | Node.js environment mode | `production` |
+| `REQUEST_TIMEOUT` | Tool execution timeout (seconds) | `10` |
+| `LOG_LEVEL` | Logging verbosity | `info` |
 
-## 🎯 Usage
+## 🏃‍♂️ Development
 
-### Basic Commands
+### Adding Custom Tools
 
-Once configured, you can use natural language commands in Windsurf:
+1. **Create Unity Tool** (C#):
+   ```csharp
+   public class MyCustomTool : McpToolBase
+   {
+       public override string ToolName => "custom_mytool";
+       public override string Description => "My custom Unity tool";
+       public override string Category => "custom";
+       
+       public override object Execute(object parameters)
+       {
+           // Your Unity API calls here
+           return CreateSuccessResponse(result);
+       }
+   }
+   ```
 
-```
-"Create a player character with movement controls"
-"Add a particle system for fire effects"
-"Set up a 2D platformer scene with platforms"
-"Generate a script for enemy AI behavior"
-"Configure build settings for mobile platforms"
-```
+2. **Register in Unity Server**:
+   ```csharp
+   // In McpUnityServer.InitializeTools()
+   RegisterTool(new MyCustomTool());
+   ```
 
-### Advanced Workflows
+3. **Add Node.js Tool** (TypeScript):
+   ```typescript
+   // In Server/src/tools/custom-tools.ts
+   export const myCustomTool: Tool = {
+     name: 'custom.mytool',
+     description: 'My custom Unity tool',
+     inputSchema: { /* JSON schema */ },
+     handler: async (params) => {
+       return await unityClient.sendRequest('custom.mytool', params);
+     }
+   };
+   ```
 
-```
-"Analyze my current Unity project and suggest optimizations"
-"Create a complete UI system for a game menu"
-"Set up physics-based vehicle controls"
-"Generate procedural terrain with textures"
-"Configure post-processing effects for better visuals"
-```
-
-## 🛠️ Available Tools
-
-### Project Management
-- `analyze_project` - Analyze Unity project structure
-- `get_project_info` - Get project settings and configuration
-- `set_project_settings` - Modify project configuration
-- `list_scenes` - List all scenes in the project
-
-### Scene Operations
-- `create_gameobject` - Create and configure GameObjects
-- `modify_component` - Add, remove, or update components
-- `query_scene` - Get scene hierarchy and object details
-- `select_objects` - Select and focus objects in the scene
-
-### Asset Management
-- `import_asset` - Import files with custom settings
-- `create_material` - Generate materials with properties
-- `manage_prefabs` - Create and modify prefab assets
-- `organize_assets` - Folder operations and organization
-
-### Code Generation
-- `create_script` - Generate C# scripts with templates
-- `analyze_scripts` - Parse existing scripts for context
-- `attach_scripts` - Attach scripts to GameObjects
-- `find_references` - Find script and component usage
-
-### Build & Deploy
-- `configure_build` - Set build settings and targets
-- `execute_build` - Trigger builds for platforms
-- `run_tests` - Execute Unity Test Runner
-- `package_manager` - Install and update packages
-
-## 💡 Examples
-
-### Creating a Character Controller
-
-```
-User: "Create a third-person character controller with camera follow"
-
-AI Response: I'll create a complete third-person character controller for you:
-
-1. Creating the player GameObject with required components
-2. Adding character controller physics
-3. Setting up camera follow system
-4. Generating movement script with WASD controls
-5. Configuring animations and input handling
-
-[Executes via MCP tools...]
-
-✅ Created PlayerController with:
-   - CharacterController component
-   - ThirdPersonMovement script
-   - CameraFollow system
-   - Input handling for movement and camera
-```
-
-### Setting Up a Game Scene
-
-```
-User: "Set up a basic platformer level with platforms, enemies, and collectibles"
-
-AI Response: Creating a platformer level with all requested elements:
-
-1. Setting up level geometry with platforms
-2. Adding enemy spawn points with AI behavior
-3. Placing collectible items with pickup scripts
-4. Configuring physics and collision layers
-5. Setting up lighting and visual effects
-
-[Executes via MCP tools...]
-
-✅ Platformer level created with:
-   - 12 platforms with varying heights
-   - 5 enemy spawn points with patrol AI
-   - 15 collectible coins with pickup effects
-   - Proper collision layers and physics
-```
-
-## 🔨 Development
-
-### Prerequisites
+### Building and Testing
 
 ```bash
-# Clone the repository for development
-git clone https://github.com/isekream/Windsurf_Unity_MCP.git
-cd Windsurf_Unity_MCP
-
-# Install Node.js dependencies
-cd Server
-npm install
-cd ..
-```
-
-### Project Structure
-
-```
-Windsurf_Unity_MCP/
-├── Unity/                          # Unity Package
-│   ├── Editor/                     # Unity Editor scripts
-│   │   ├── McpUnityServer.cs      # Main server coordinator
-│   │   ├── Tools/                  # MCP tool implementations
-│   │   └── UI/                     # Editor UI components
-│   ├── Runtime/                    # Runtime scripts
-│   └── package.json               # Unity package manifest
-├── Server/                         # Node.js MCP Server
-│   ├── src/                       # TypeScript source code
-│   │   ├── index.ts              # Main entry point
-│   │   ├── tools/                # Tool implementations
-│   │   ├── unity-client.ts       # Unity WebSocket client
-│   │   └── schemas/              # Zod validation schemas
-│   ├── build/                    # Compiled JavaScript
-│   └── package.json              # Node.js dependencies
-├── docs/                          # Documentation
-├── examples/                      # Example projects
-└── tests/                         # Test suites
-```
-
-### Building the Project
-
-```bash
-# Build TypeScript to JavaScript (run from Server directory)
+# Build Node.js server
 cd Server
 npm run build
-
-# Run in development mode with hot reload
-npm run dev
 
 # Run tests
 npm test
 
-# Lint code
-npm run lint
+# Start development server with hot reload
+npm run dev
 
-# For global installation during development
-npm link
+# Test specific tool
+python3 unity_mcp_client.py your.tool '{"param": "value"}'
 ```
 
-### Unity Development
+## 🐛 Troubleshooting
 
-1. Open Unity Editor
-2. Import the Unity package from `/Unity` folder
-3. Navigate to **Tools > Windsurf MCP > Development Window**
-4. Enable development mode for detailed logging
-5. Test MCP tools directly from the Unity interface
+### Common Issues
 
-## 🧪 Testing
+1. **"Connection refused"**:
+   - Ensure Unity Editor is running
+   - Check Unity MCP Server window shows "Running"
+   - Verify port 8090 is not blocked
 
-### Running Tests
+2. **"Tool execution timed out"**:
+   - Unity Editor may be busy or not responding
+   - Increase timeout in Unity MCP Server settings
+   - Check Unity Console for errors
+
+3. **"Tool not found"**:
+   - Verify tool is registered in Unity C# server
+   - Check Node.js server logs for tool registration
+   - Ensure tool name format matches (category.action)
+
+4. **MCP not appearing in Windsurf**:
+   - Restart Windsurf IDE after configuration changes
+   - Check MCP configuration file syntax
+   - Verify Node.js server builds without errors
+
+### Diagnostic Commands
 
 ```bash
-# Run all tests
-npm test
+# Test Unity connection
+curl -X POST http://localhost:8090 -H "Content-Type: application/json" -d '{"id":"test","type":"request","method":"project.getInfo","params":{}}'
 
-# Run specific test suites
-npm run test:unit
-npm run test:integration
-npm run test:e2e
+# Check Node.js server status
+node Server/build/index.js --test
 
-# Run tests with coverage
-npm run test:coverage
+# Validate MCP configuration
+cat ~/.config/windsurf/mcp.json | jq .
 ```
 
-### Manual Testing
+## 📁 Project Structure
 
-1. Start Unity Editor with the package installed
-2. Start the MCP server in development mode
-3. Configure Windsurf to connect to the local server
-4. Test various commands and workflows
+```
+Windsurf_Unity_MCP/
+├── Server/                    # Node.js MCP Server
+│   ├── src/                   # TypeScript source code
+│   │   ├── tools/            # Tool implementations
+│   │   ├── unity-client.ts   # Unity communication client
+│   │   └── index.ts          # Main server entry point
+│   ├── build/                # Compiled JavaScript
+│   └── package.json          # Node.js dependencies
+├── Unity/                     # Unity C# Plugin
+│   ├── Editor/               # Unity Editor scripts
+│   │   ├── Tools/           # Individual MCP tools
+│   │   └── McpUnityServer.cs # Main Unity HTTP server
+│   └── package.json          # Unity package definition
+├── unity_mcp_client.py       # Python test client
+├── mcp.json                  # Local MCP configuration
+└── README.md                 # This documentation
+```
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### Development Workflow
-
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make your changes and add tests
-4. Ensure all tests pass: `npm test`
-5. Commit your changes: `git commit -m 'Add amazing feature'`
-6. Push to the branch: `git push origin feature/amazing-feature`
-7. Open a Pull Request
+2. Create a feature branch (`git checkout -b feature/amazing-tool`)
+3. Add your tool following the established patterns
+4. Write tests and documentation
+5. Submit a pull request
+
+### Tool Development Guidelines
+
+- Follow Unity C# coding conventions
+- Use TypeScript for Node.js components
+- Include comprehensive error handling
+- Add parameter validation and helpful error messages
+- Document all public APIs and tool parameters
+- Test tools with various Unity project configurations
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
-- [Model Context Protocol](https://modelcontextprotocol.io/) for the protocol specification
-- [Unity Technologies](https://unity.com/) for the game engine
-- [Windsurf](https://codeium.com/windsurf) for the AI-powered IDE
-- [CoderGamester/mcp-unity](https://github.com/CoderGamester/mcp-unity) for inspiration
+- Unity Technologies for the comprehensive Editor API
+- Model Context Protocol (MCP) specification
+- Windsurf IDE team for MCP integration
+- Open source contributors and beta testers
 
-## 🆘 Support
+## 📞 Support
 
-- 📖 [Documentation](docs/)
-- 🐛 [Issue Tracker](https://github.com/isekream/Windsurf_Unity_MCP/issues)
-- 💬 [Discussions](https://github.com/isekream/Windsurf_Unity_MCP/discussions)
-- 📧 [Email Support](mailto:support@yourdomain.com)
+- 🐛 **Issues**: [GitHub Issues](https://github.com/isekream/Windsurf_Unity_MCP/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/isekream/Windsurf_Unity_MCP/discussions)
+- 📧 **Email**: support@windsurfmcp.com
+- 📖 **Docs**: [Wiki](https://github.com/isekream/Windsurf_Unity_MCP/wiki)
 
 ---
 
-<div align="center">
-Made with ❤️ for Unity developers using Windsurf IDE
-</div> 
+**Made with ❤️ for the Unity and AI development community** 
