@@ -350,10 +350,49 @@ namespace Windsurf.Unity.MCP
             try
             {
                 var tool = instance.tools[toolName];
-                var result = tool.Execute(parameters);
+                McpResponse result = null;
+                Exception resultException = null;
+                bool isComplete = false;
+
+                // Execute tool on main thread
+                EditorApplication.delayCall += () =>
+                {
+                    try
+                    {
+                        result = McpResponse.CreateSuccess(tool.Execute(parameters));
+                        LogMessage($"Executed tool: {toolName}");
+                    }
+                    catch (Exception e)
+                    {
+                        LogError($"Error executing tool '{toolName}': {e.Message}");
+                        resultException = e;
+                    }
+                    finally
+                    {
+                        isComplete = true;
+                    }
+                };
+
+                // Wait for completion (with timeout)
+                var startTime = DateTime.Now;
+                var timeout = TimeSpan.FromSeconds(requestTimeout);
                 
-                LogMessage($"Executed tool: {toolName}");
-                return McpResponse.CreateSuccess(result);
+                while (!isComplete && DateTime.Now - startTime < timeout)
+                {
+                    Thread.Sleep(10);
+                }
+
+                if (!isComplete)
+                {
+                    return McpResponse.CreateError($"Tool '{toolName}' execution timed out after {requestTimeout} seconds");
+                }
+
+                if (resultException != null)
+                {
+                    return McpResponse.CreateError(resultException.Message);
+                }
+
+                return result;
             }
             catch (Exception e)
             {
