@@ -68,6 +68,7 @@ Windsurf IDE ←→ Node.js MCP Server ←→ Unity Editor C# Plugin
      }
    }
    ```
+   **Note**: Replace `/path/to/Windsurf_Unity_MCP` with the actual absolute path to your cloned repository.
 
 4. **Install Unity Plugin**:
    - Open Unity Editor with your project

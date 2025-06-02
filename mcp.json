@@ -3,7 +3,7 @@
     "unity-mcp": {
       "command": "node",
       "args": ["./Server/build/index.js"],
-      "cwd": "/Users/hamad.masood/Documents/Coding/Windsurf_Unity_MCP",
+      "cwd": ".",
       "env": {
         "NODE_ENV": "production",
         "UNITY_PORT": "8090"

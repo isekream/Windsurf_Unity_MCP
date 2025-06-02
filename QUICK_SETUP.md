@@ -12,7 +12,7 @@ Get Unity MCP running with all 40 tools in 5 minutes!
 
 ### 1. Configure Windsurf MCP (2 minutes)
 
-Copy this exact configuration to `~/.config/windsurf/mcp.json`:
+Copy this configuration to `~/.config/windsurf/mcp.json`, **replacing `<PATH_TO_WINDSURF_UNITY_MCP>` with your actual project path**:
 
 ```json
 {
@@ -20,7 +20,7 @@ Copy this exact configuration to `~/.config/windsurf/mcp.json`:
     "unity-mcp": {
       "command": "node",
       "args": ["./Server/build/index.js"],
-      "cwd": "/Users/hamad.masood/Documents/Coding/Windsurf_Unity_MCP",
+      "cwd": "<PATH_TO_WINDSURF_UNITY_MCP>",
       "env": {
         "NODE_ENV": "production",
         "UNITY_PORT": "8090"
@@ -31,6 +31,11 @@ Copy this exact configuration to `~/.config/windsurf/mcp.json`:
   }
 }
 ```
+
+**Example paths:**
+- macOS: `/Users/yourname/Documents/Windsurf_Unity_MCP`
+- Windows: `C:\Users\yourname\Documents\Windsurf_Unity_MCP`
+- Linux: `/home/yourname/Documents/Windsurf_Unity_MCP`
 
 ### 2. Install Unity Plugin (1 minute)
 
@@ -49,9 +54,9 @@ Copy this exact configuration to `~/.config/windsurf/mcp.json`:
 
 ### 4. Test Connection (1 minute)
 
-Run this test command in terminal:
+Run this test command in terminal (replace path with your actual project location):
 ```bash
-cd /Users/hamad.masood/Documents/Coding/Windsurf_Unity_MCP
+cd <PATH_TO_WINDSURF_UNITY_MCP>
 python3 unity_mcp_client.py project.getInfo
 ```
 
@@ -139,7 +144,7 @@ Expected output: Project information JSON (not timeout/connection errors)
 ### "MCP not in Windsurf Tools"
 - ✅ Restart Windsurf completely
 - ✅ Check `~/.config/windsurf/mcp.json` syntax
-- ✅ Verify absolute paths are correct
+- ✅ Verify path in `cwd` field is correct
 
 ### "Tool not found"
 - ✅ Unity MCP Server window shows all tools registered
@@ -156,4 +161,4 @@ Expected output: Project information JSON (not timeout/connection errors)
 
 ---
 
-**🎯 Success Criteria**: You can run `python3 unity_mcp_client.py project.analyze` and get project details (not errors). 
+**🎯 Success Criteria**: You can run `python3 unity_mcp_client.py project.analyze` from your project directory and get project details (not errors). 
